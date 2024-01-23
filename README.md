@@ -3,9 +3,9 @@ EVLab-SHPCD dataset is a cross-modal change detection benchmark using historical
 EVLab being the abbreviation for the Earth vision Laboratory at Wuhan University in Hubei Province, China, and SHPCD being the name of the dataset.  
 The dataset is divided into a training set containing 5225 pairs and a validation set with 397 pairs. 
 Each image has a pixel resolution of 512×512 and a spatial resolution of 0.8 meters.  
-***
-Each pair consists of three images.
 
+Each pair consists of three images.
+---
   1.Hlubm (Historical Land Use Base Map):
   
      Grayscale map depicting historical land use classifications.
