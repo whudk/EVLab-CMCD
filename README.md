@@ -6,6 +6,7 @@ EVLab being the abbreviation for the Earth vision Laboratory at Wuhan University
 The dataset is divided into a training set containing 5225 pairs and a validation set with 397 pairs. Each image has a pixel resolution of 512×512 and a spatial resolution of 0.8 meters.
 ---
 Image Components
+
   Hlubm (Historical Land Use Base Map):
   
      Grayscale map depicting historical land use classifications.
@@ -24,3 +25,8 @@ Image Components
     
      255 indicates newly developed land, including buildings, roads, and fill areas.
 ![](https://github.com/whudk/EVLab-SHPCD/blob/main/images/evlab_shpcd.png)
+
+---
+Kindly note that the dataset is strictly designated for academic use and is not to be utilized for commercial
+purposes.
+---
