@@ -7,17 +7,17 @@ The dataset is divided into a training set containing 5225 pairs and a validatio
 ***
 Image Components
 
-  Hlubm (Historical Land Use Base Map):
+  1.Hlubm (Historical Land Use Base Map):
   
      Grayscale map depicting historical land use classifications.
     
      Pixel values range from 0 to 85, with each value corresponding to a specific land use classification category.
     
-  Crism (Current Remote Sensing Image):
+  2.Crism (Current Remote Sensing Image):
   
      Represents the contemporary remote sensing image.
     
-  Target:
+  3.Target:
   
      Manually annotated binary changes.
     
@@ -27,6 +27,5 @@ Image Components
 ![](https://github.com/whudk/EVLab-SHPCD/blob/main/images/evlab_shpcd.png)
 
 ***
-Kindly note that the dataset is strictly designated for academic use and is not to be utilized for commercial
-purposes.
+Kindly note that the dataset is strictly designated for academic use and is not to be utilized for commercial purposes.
 ***
