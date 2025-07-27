@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DLBM>
+	<!--DLBM And TransID!-->
+	<BM key="0000" val="0" />
+	<BM key="0101" val="1" />
+	<BM key="0102" val="2" />
+	<BM key="0103" val="3" />
+	<BM key="0201" val="4" />
+	<BM key="0202" val="5" />
+	<BM key="0203" val="6" />
+	<BM key="0204" val="7" />
+	<BM key="0201K" val="4" />
+	<BM key="0202K" val="5" />
+	<BM key="0203K" val="6" />
+	<BM key="0204K" val="7" />
+	<BM key="0301" val="8" />
+	<BM key="0301K" val="8" />
+	<BM key="0302" val="9" />
+	<BM key="0302K" val="9" />
+	<BM key="0303" val="10" />
+	<BM key="0304" val="11" />
+	<BM key="0305" val="12" />
+	<BM key="0306" val="13" />
+	<BM key="0307" val="14" />
+	<BM key="0307K" val="14" />
+	<BM key="0401" val="15" />
+	<BM key="0402" val="16" />
+	<BM key="0403" val="16" />
+	<BM key="0403K" val="16" />
+	<BM key="0404" val="16" />
+	<BM key="05H1" val="20" />
+	<BM key="0508" val="21" />
+	<BM key="0601" val="22" />
+	<BM key="0602" val="23" />
+	<BM key="0603" val="24" />
+	<BM key="0701" val="25" />
+	<BM key="0702" val="26" />
+	<BM key="08H1" val="27" />
+	<BM key="08H2" val="28" />
+	<BM key="08H2A" val="28" />
+	<BM key="0809" val="29" />
+	<BM key="0810" val="30" />
+	<BM key="09" val="30" />
+	<BM key="0810A" val="30" />
+	<BM key="1001" val="31" />
+	<BM key="1002" val="32" />
+	<BM key="1003" val="33" />
+	<BM key="1004" val="34" />
+	<BM key="1005" val="35" />
+	<BM key="1006" val="36" />
+	<BM key="1007" val="37" />
+	<BM key="1008" val="38" />
+	<BM key="1009" val="39" />
+	<BM key="1101" val="40" />
+	<BM key="1102" val="41" />
+	<BM key="1103" val="42" />
+	<BM key="1104" val="43" />
+	<BM key="1104A" val="44" />
+	<BM key="1104K" val="45" />
+	<BM key="1107" val="46" />
+	<BM key="1107A" val="47" />
+	<BM key="1109" val="48" />
+	<BM key="1110" val="50" />
+	<BM key="1105" val="51" />
+	<BM key="1106" val="52" />
+	<BM key="1108" val="53" />
+	<BM key="1201" val="54" />
+	<BM key="1202" val="55" />
+	<BM key="1203" val="56" />
+	<BM key="1204" val="57" />
+	<BM key="1205" val="58" />
+	<BM key="1206" val="59" />
+	<BM key="1207" val="60" />
+	<BM key="SJ" val="61" />
+	<BM key="20" val="62" />
+	<BM key="DL1" val="63" />
+	<BM key="DL2" val="64" />
+	<BM key="DL3" val="65" />
+	<BM key="GQ" val="66" />
+	<BM key="JZ" val="67" />
+	<BM key="LD" val="68" />
+	<BM key="TD" val="69" />
+	<BM key="TL" val="70" />
+	<BM key="YH" val="71" />
+	<BM key="GEF" val="72" />
+	<BM key="ZQC" val="73" />
+	<BM key="GF" val="74" />
+	<BM key="CK" val="75" />
+</DLBM>
+<Scheme>
+	<Layer>
+		<LayerShapeType>5</LayerShapeType>
+		<LayerDatasetContainer>DLBM</LayerDatasetContainer>
+	</Layer>
+</Scheme>

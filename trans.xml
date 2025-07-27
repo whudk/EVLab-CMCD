@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TransBM>
+	<!--DLBM And TransID!-->
+	<BM key="0"  val="0"/>
+	<BM key="1"  val="1"/>
+	<BM key="2"  val="1"/>
+	<BM key="3"  val="1"/>
+	<BM key="4"  val="2"/>
+	<BM key="5"  val="2"/>
+	<BM key="6"  val="2"/>
+	<BM key="7"  val="2"/>
+	<BM key="8"  val="3"/>
+	<BM key="9"  val="3"/>
+	<BM key="10" val="3"/>
+	<BM key="11" val="3"/>
+	<BM key="12" val="3"/>
+	<BM key="13" val="3"/>
+	<BM key="14" val="3"/>
+	<BM key="15" val="4"/>
+	<BM key="16" val="4"/>
+	<BM key="20" val="5"/>
+	<BM key="21" val="5"/>
+	<BM key="22" val="5"/>
+	<BM key="23" val="8"/>
+	<BM key="24" val="5"/>
+	<BM key="25" val="5"/>
+	<BM key="26" val="5"/>
+	<BM key="27" val="5"/>
+	<BM key="28" val="5"/>
+	<BM key="29" val="5"/>
+	<BM key="30" val="5"/>
+	<BM key="31" val="6"/>
+	<BM key="32" val="6"/>
+	<BM key="33" val="6"/>
+	<BM key="34" val="6"/>
+	<BM key="35" val="5"/>
+	<BM key="36" val="6"/>
+	<BM key="37" val="5"/>
+	<BM key="38" val="5"/>
+	<BM key="39" val="5"/>
+	<BM key="40" val="10"/>
+	<BM key="41" val="10"/>
+	<BM key="42" val="10"/>
+	<BM key="43" val="10"/>
+	<BM key="44" val="10"/>
+	<BM key="45" val="10"/>
+	<BM key="46" val="5"/>
+	<BM key="47" val="5"/>
+	<BM key="48" val="5"/>
+	<BM key="50" val="10"/>
+	<BM key="51" val="9"/>
+	<BM key="52" val="9"/>
+	<BM key="53" val="9"/>
+	<BM key="54" val="9"/>
+	<BM key="55" val="5"/>
+	<BM key="56" val="1"/>
+	<BM key="57" val="9"/>
+	<BM key="58" val="9"/>
+	<BM key="59" val="9"/>
+	<BM key="60" val="9"/>
+	<BM key="61" val="5"/>
+	<BM key="62" val="5"/>
+	<BM key="63" val="6"/>
+	<BM key="64" val="8"/>
+	<BM key="65" val="6"/>
+	<BM key="66" val="5"/>
+	<BM key="67" val="5"/>
+	<BM key="68" val="5"/>
+	<BM key="69" val="8"/>
+	<BM key="70" val="6"/>
+	<BM key="71" val="5"/>
+	<BM key="72" val="5"/>
+	<BM key="73" val="5"/>
+	<BM key="74" val="5"/>
+	<BM key="75" val="8"/>
+</TransBM>
+<Scheme>
+	<Layer>
+		<LayerShapeType>5</LayerShapeType>
+		<LayerDatasetContainer>DLBM</LayerDatasetContainer>
+	</Layer>
+</Scheme>
