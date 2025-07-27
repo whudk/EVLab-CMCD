@@ -28,7 +28,17 @@ Each image pair consists of the following three components:
 </p>
 
 ---
+## 🧭 Supporting Files
 
+- **`trans.xml`**  
+  - A raster code-to-class mapping file  
+  - Defines the mapping between grayscale pixel values in `Hlubm` and semantic land use labels
+
+- **`dlbm.xml`**  
+  - A category definition file following China's **Third National Land Use Survey (第三次全国国土调查)**  
+  - Provides standardized land use labels for compatibility and extension
+
+---
 ## 📥 Download
 
 - **Baidu Cloud**: [https://pan.baidu.com/s/1Bq_P7wr5z6d3UixCyTtPtA](https://pan.baidu.com/s/1Bq_P7wr5z6d3UixCyTtPtA)  
