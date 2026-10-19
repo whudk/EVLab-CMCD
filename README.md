@@ -10,12 +10,11 @@ CMPANet detects changes between historical land-use maps and current optical ima
 
 The released configuration uses a **ViT-S/16 map encoder**, a **frozen ViT-B/16 image encoder**, CCMAT with **24 attention heads**, TBAM fusion, and a UperHead decoder. The four feature chunks **share the same learned `norm1`** before pyramid construction. Training and evaluation use this same normalization.
 
-![CMPANet architecture, Figure 2 of the paper](images/network.png)
+![CMPANet architecture, Figure 2 of the paper](images/cmpanet_architecture.png)
 
 *Architecture from Figure 2 of the paper; this is a paper illustration, not a new experimental result.*
 
-## Released checkpoint: verified results
-
+## Released checkpoint
 The root-level `cmpanet_small_head_24_max_performance.pth` was evaluated with the public `test.py` on **all 397 validation pairs**, at 512 × 512, FP32, batch size 1, no test-time augmentation, and shared `norm1`.
 
 | Evaluation | Precision (%) | Recall (%) | F1 (%) | Change IoU (%) | OA (%) |
