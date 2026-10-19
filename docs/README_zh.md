@@ -12,7 +12,12 @@
 
 安装命令见[主README](../README.md#installation)。需要 `ssl_vit_base_epoch8.pth` 和 `cmpanet_small_head_24_max_performance.pth` 两个文件，前者为冻结影像编码器，后者为变化检测网络和地图编码器。
 
-训练好的 `cmpanet_small_head_24_max_performance.pth` 已提供[百度网盘下载](https://pan.baidu.com/s/15o1z2YPFryg5aEJ_Chi6NA)，提取码：`cmcd`。预训练影像编码器 `ssl_vit_base_epoch8.pth` 的链接仍待上传，完整测试需要这两个文件。请按[下载表](../README.md#model-downloads)中的SHA-256核对；其他目录的同名权重不一定是这一份。
+两个文件均已提供百度网盘下载，提取码均为 `cmcd`：
+
+- [训练权重：cmpanet_small_head_24_max_performance.pth](https://pan.baidu.com/s/15o1z2YPFryg5aEJ_Chi6NA)
+- [预训练影像编码器：ssl_vit_base_epoch8.pth](https://pan.baidu.com/s/1gDLdIU99Lr66i11rXh1pEw)
+
+完整测试需要这两个文件。请按[下载表](../README.md#model-downloads)中的SHA-256核对；其他目录的同名权重不一定是这一份。
 
 ## 数据
 
