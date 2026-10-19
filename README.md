@@ -112,14 +112,6 @@ Run from the repository root (the same command works in Bash and PowerShell):
 python test.py --checkpoint checkpoints/cmpanet_small_head_24_max_performance.pth --pretrained pretrained/ssl_vit_base_epoch8.pth --valtxt data/val.txt --output outputs/small24 --expect-samples 397
 ```
 
-Wrappers: `bash scripts/test.sh <same arguments>` or `./scripts/test.ps1 <same arguments>`.
-
-- Uses `configs/cmpanet_small_head24.json`, shared `norm1`, strict loading, FP32, batch 1, TF32 disabled, bilinear output interpolation (`align_corners=True`), then argmax.
-- Requires validation data only, without training samples or a training list.
-- Writes `results.json` (metrics, confusion matrix, pixel counts, hashes), `samples.jsonl` (per-image records), and `evaluation_config.json`.
-- `--save-predictions` writes raw 0/255 predictions. Ignored pixels are excluded from metrics only.
-- Use a fresh output directory per run. Omit `--expect-samples` for other dataset sizes.
-- Labels provide metrics and an auxiliary alignment mask. The segmentation feature path independently re-encodes the map and does not consume the label-derived mask.
 
 ## Training
 
@@ -127,19 +119,6 @@ Wrappers: `bash scripts/test.sh <same arguments>` or `./scripts/test.ps1 <same a
 python train.py --suptxt data/train.txt --valtxt data/val.txt --pretrained pretrained/ssl_vit_base_epoch8.pth --epochs 100 --train_batch_size 4 --base_lr 0.00001 --test_interval 500 --checkpoints_name cmpanet_small_head24 --log_file logs/cmpanet_small_head24
 ```
 
-Wrappers: `bash scripts/train.sh <same arguments>` or `./scripts/train.ps1 <same arguments>`. See `python train.py --help`. `main.py` is also retained; pass `--configs configs/cmpanet_small_head24.json` explicitly when using it.
-
-| Current training recipe | Value |
-|---|---|
-| Map / image encoder | Trainable ViT-S/16 / frozen ViT-B/16 |
-| Feature normalization | Shared `norm1` on all four chunks |
-| Batch / epochs | 4 / 100 |
-| Optimizer / LR / weight decay | AdamW / 1e-5 / 0.01 |
-| Schedule | Cosine, minimum LR 1e-6, no warmup |
-| Segmentation loss | OHEM cross entropy, weight 0.7 |
-| Patch alignment | Masked KL(student map \|\| frozen image teacher), weight 1.0 |
-| Pixel alignment | Disabled |
-| AMP / seed | Enabled / 304 |
 
 Map parameters are initialized randomly unless `--resume` supplies decoder weights. `--resume` is **weight initialization / fine-tuning**, not restoration of optimizer, AMP, RNG or learning-rate progress. Legacy release weights use the same strict compatibility adapter as evaluation.
 
@@ -158,17 +137,6 @@ python tools/smoke_test.py --pretrained pretrained/ssl_vit_base_epoch8.pth --fp1
 
 The smoke test uses temporary synthetic inputs and checks actual optimization, finite loss, teacher freezing, evaluation and serialization. It is not a dataset training experiment. The public evaluator was separately checked on all 397 real samples; see [recorded metrics](docs/release_metrics.json).
 
-```text
-configs/       Small shared-norm1 recipe and optional Base config
-lib/           Backbones, attention, decoder, losses and data pipeline
-segmentor/     Single-GPU trainer and evaluator
-train.py       Training entry point
-test.py        Standalone evaluation entry point
-scripts/       Bash and PowerShell wrappers
-tests/         Loss, normalization, data and metric tests
-docs/          Verification record and Chinese guide
-images/        Dataset examples and attributed paper figures
-```
 
 ## Citation and attribution
 
