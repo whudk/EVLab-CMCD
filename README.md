@@ -1,5 +1,4 @@
-# CMPANet & EVLab-CMCD
-
+# MAP-Image Change Detection
 **Cross-modal change detection using historical land use maps and current remote sensing images**
 
 ISPRS Journal of Photogrammetry and Remote Sensing, 218 (2024), 114–132.
