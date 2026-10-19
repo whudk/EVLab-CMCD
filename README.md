@@ -86,7 +86,7 @@ Images and labels must be aligned. Maps are read as three BGR channels by OpenCV
 | File | Role | Baidu Netdisk link | Extraction code |
 |---|---|---|---|
 | `ssl_vit_base_epoch8.pth` | Frozen image encoder; iBOT backbone + head | **Pending upload — add link here** | **Pending** |
-| `cmpanet_small_head_24_max_performance.pth` | Trained change detector / map encoder | **Pending upload — add link here** | **Pending** |
+| `cmpanet_small_head_24_max_performance.pth` | Trained change detector / map encoder | [Download](https://pan.baidu.com/s/15o1z2YPFryg5aEJ_Chi6NA) | `cmcd` |
 
 Both files are required. The change-detection checkpoint does not contain the frozen image encoder. Another directory contains a different checkpoint with the same basename: verify these hashes.
 
@@ -102,7 +102,7 @@ data/train.txt
 data/val.txt
 ```
 
-Weights and data are excluded from Git. Model download links are **not yet available**. The verified teacher is epoch8; the paper describes 10 pretraining epochs. Other teacher checkpoints are not interchangeable for reproducing the score.
+Weights and data are excluded from Git. The trained change-detection checkpoint is available via the link above; the pretrained image encoder download is **pending upload**. Both files are needed for evaluation. The verified teacher is epoch8; the paper describes 10 pretraining epochs. Other teacher checkpoints are not interchangeable for reproducing the score.
 
 ## Evaluation
 
