@@ -1,0 +1,41 @@
+{
+  "samples": 397,
+  "confusion_matrix": [
+    [
+      96544638,
+      338945
+    ],
+    [
+      536252,
+      1953971
+    ]
+  ],
+  "metrics_percent": {
+    "precision": 85.21773148253142,
+    "recall": 78.465703673928,
+    "f1": 81.70245522866887,
+    "iou_change": 69.06521634628979,
+    "oa": 99.11928803451485,
+    "miou": 84.08341987386271
+  },
+  "valid_pixels": 99373806,
+  "ignored_pixels": 4697362,
+  "total_pixels": 104071168,
+  "valid_change_pixels": 2490223,
+  "checkpoint_sha256": "99af86610d54ff99c2ac22691bd0e398c7a0acc1e0e97a1bc2d5928edf17366b",
+  "teacher_sha256": "73c3947b22d2f98c481c3cc42fd126bff293ee2a0361622af7aa441142ac4d24",
+  "manifest_sha256": "f3473dae5bafda6074b0eb39a28462d5237f6b7f692707af977d331f56541881",
+  "checkpoint": "cmpanet_small_head_24_max_performance.pth",
+  "teacher": "ssl_vit_base_epoch8.pth",
+  "normalization": "shared_chunk_norm1",
+  "precision": "FP32; TF32 disabled",
+  "batch_size": 1,
+  "decoder_loading": {
+    "strict": true,
+    "tensors": 350,
+    "legacy_unused_fuse_convs": true
+  },
+  "teacher_loading": "strict backbone",
+  "elapsed_seconds": 34.6928277015686,
+  "all_397_sample_confusion_matrices_match_independent_verification": true
+}

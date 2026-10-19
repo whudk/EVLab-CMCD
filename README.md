@@ -1,65 +1,186 @@
-# 📦 EVLab-SHPCD: A Cross-Modal Change Detection Dataset
+# CMPANet & EVLab-CMCD
 
-**EVLab-SHPCD** is a cross-modal change detection benchmark proposed and led by *Prof. Xiangyun Hu*, and constructed by *Dr. Kai Deng* and other members of the **Earth Vision Laboratory (EVLab)** at Wuhan University, Hubei Province, China. The dataset is designed to promote research on detecting land use changes by combining **historical land use base maps** with **current high-resolution remote sensing imagery**.
+**Cross-modal change detection using historical land use maps and current remote sensing images**
 
-## 🗂️ Dataset Overview
+ISPRS Journal of Photogrammetry and Remote Sensing, 218 (2024), 114–132.
 
-- **Training Set**: 5,225 image pairs  
-- **Validation Set**: 397 image pairs  
-- **Image Size**: 512 × 512 pixels  
-- **Spatial Resolution**: 0.8 meters  
+[Paper](https://doi.org/10.1016/j.isprsjprs.2024.10.010) · [Dataset](#dataset) · [Model downloads](#model-downloads) · [Training](#training) · [Evaluation](#evaluation) · [中文说明](docs/README_zh.md)
 
-Each image pair consists of the following three components:
+CMPANet detects changes between historical land-use maps and current optical imagery. This repository provides the EVLab-CMCD dataset description, a cleaned single-GPU PyTorch implementation, training/evaluation scripts, and the evaluation protocol for the released `cmpanet_small_head_24` checkpoint.
 
-1. **Hlubm** (Historical Land Use Base Map)  
-   - A grayscale image representing historical land use categories  
-   - Pixel values range from **0 to 85**, each corresponding to a specific land use type  
+The released configuration uses a **ViT-S/16 map encoder**, a **frozen ViT-B/16 image encoder**, CCMAT with **24 attention heads**, TBAM fusion, and a UperHead decoder. The four feature chunks **share the same learned `norm1`** before pyramid construction. Training and evaluation use this same normalization.
 
-2. **Crism** (Current Remote Sensing Image)  
-   - A contemporary high-resolution optical remote sensing image  
+![CMPANet architecture, Figure 2 of the paper](images/cmpanet_architecture.png)
 
-3. **Target** (Change Annotation)  
-   - A binary label map manually annotated  
-   - Pixel value `0`: background / no change  
-   - Pixel value `255`: newly developed land, including buildings, roads, and filled areas  
+*Architecture from Figure 2 of the paper; this is a paper illustration, not a new experimental result.*
 
-<p align="center">
-  <img src="https://github.com/whudk/EVLab-SHPCD/blob/main/images/evlab_shpcd.png" width="600"/>
-</p>
+## Released checkpoint: verified results
 
----
-## 🧭 Supporting Files
+The root-level `cmpanet_small_head_24_max_performance.pth` was evaluated with the public `test.py` on **all 397 validation pairs**, at 512 × 512, FP32, batch size 1, no test-time augmentation, and shared `norm1`.
 
-- **`trans.xml`**  
-  - A raster code-to-class mapping file  
-  - Defines the mapping between grayscale pixel values in `Hlubm` and semantic land use labels
+| Evaluation | Precision (%) | Recall (%) | F1 (%) | Change IoU (%) | OA (%) |
+|---|---:|---:|---:|---:|---:|
+| Released `cmpanet_small_head_24`, this code | **85.22** | **78.47** | **81.70** | **69.07** | **99.12** |
+| Paper CMPANet*-S, Table 2 | 82.6 ± 1.65 | 80.5 ± 0.13 | 81.6 ± 0.15 | 69.0 ± 0.46 | 99.1 ± 0.03 |
+| Paper CMPANet*-B, Table 2 | 85.3 ± 0.37 | 78.3 ± 0.61 | 81.6 ± 0.16 | 69.0 ± 0.24 | 99.1 ± 0.03 |
 
-- **`dlbm.xml`**  
-  - A category definition file following China's **Third National Land Use Survey (第三次全国国土调查)**  
-  - Provides standardized land use labels for compatibility and extension
+The checkpoint has the **Small map encoder**, even though its precision/recall resemble the paper's Base row. Its F1 differs from the reported 81.6% by +0.1025 percentage points. Single-checkpoint and paper aggregate results are distinct measurements.
 
----
-## 📥 Download
+**Verification scope:** the complete historical forward source has not been recovered. The compatibility implementation uses surviving source and trained normalization tensors; all decoder tensors and the teacher backbone load strictly. The public evaluator reproduces the independently audited confusion matrix exactly. This verifies the checkpoint under the documented implementation, not fresh-training reproduction of the historical run. The checkpoint was selected using evaluation performance, so this is not an untouched holdout evaluation. See [verification details](docs/VERIFICATION.md).
 
-- **Baidu Cloud**: [https://pan.baidu.com/s/1Bq_P7wr5z6d3UixCyTtPtA](https://pan.baidu.com/s/1Bq_P7wr5z6d3UixCyTtPtA)  
-- **Access Code**: `cmcd`  
+![Qualitative comparison from the paper, Figure 9](images/evlab_qualitative_results.png)
 
-> **Note**: This dataset is released strictly for **academic research purposes only**. Any **commercial use is prohibited**.
+*Figure 9: comparison on EVLab-CMCD from the published paper. These are original paper results, not predictions newly generated by this release.*
 
----
+## Installation
 
-## 📖 Citation
+Tested on Windows with Python 3.10, PyTorch 2.3.1 + CUDA 11.8, torchvision 0.18.1, and RTX 4090. Bash wrappers are supplied for Linux; Linux execution has not been independently verified.
 
-If you use EVLab-SHPCD in your work, please cite the following paper:
+```bash
+git clone https://github.com/whudk/EVLab-CMCD.git
+cd EVLab-CMCD
+conda create -n cmpanet python=3.10 -y
+conda activate cmpanet
+python -m pip install torch==2.3.1 torchvision==0.18.1 --index-url https://download.pytorch.org/whl/cu118
+python -m pip install -r requirements.txt
+```
+
+Single CUDA GPU only. The default CUDA allocator limit is 60% of device memory (`--memory-fraction`); this does not guarantee a particular batch fits. Evaluation uses FP32; training defaults to AMP. Load only trusted `.pth` files.
+
+## Dataset
+
+**EVLab-CMCD (EVLab-SHPCD in earlier materials)** is a benchmark proposed and led by **Prof. Xiangyun Hu**, and constructed by **Dr. Kai Deng** and other members of the **Earth Vision Laboratory (EVLab), Wuhan University**.
+
+| Split | Pairs | Image size | Resolution |
+|---|---:|---|---|
+| Training | 5,225 | 512 × 512 | 0.8 m |
+| Validation / paper test split | 397 | 512 × 512 | 0.8 m |
+
+Each sample contains **Hlubm** (historical map, grayscale land-use codes 0–85), **Crism** (current optical image), and **Target** (binary change label: 0 unchanged, 255 changed).
+
+![EVLab dataset examples](images/evlab_shpcd.png)
+
+Dataset download: [Baidu Netdisk](https://pan.baidu.com/s/1Bq_P7wr5z6d3UixCyTtPtA), extraction code **`cmcd`**. Existing dataset terms remain **academic research only; commercial use is prohibited**.
+
+`trans.xml` and `dlbm.xml` describe land-use categories and the Third National Land Use Survey classification. They are metadata: **do not use these files to remap the binary change labels**. The released config leaves `config.transxml` empty.
+
+### Prepare manifests
+
+Create `data/train.txt` and `data/val.txt`. Each line contains **map, image, label**, separated by whitespace:
+
+```text
+/dataset/Hlubm/0001.png /dataset/Crism/0001.png /dataset/Target/0001.png
+/dataset/Hlubm/0002.png /dataset/Crism/0002.png /dataset/Target/0002.png
+```
+
+Use absolute paths or paths relative to the command's working directory (normally the repository root). Individual sample paths must not contain whitespace. Windows paths such as `D:/dataset/...` work. Use UTF-8 without BOM or blank lines. Keep the official split, rather than resplitting the validation set.
+
+Images and labels must be aligned. Maps are read as three BGR channels by OpenCV (grayscale is replicated); images stay BGR. Map values are divided by 255; image BGR mean/std are in the config. Do not substitute RGB/ImageNet normalization.
+
+**Evaluation mask:** nonzero source labels, including 255, become change class 1. Pixels whose map channels are all 0, or whose image channels are all 0 or all 1, are ignored. On the verified split: **99,373,806 valid + 4,697,362 ignored = 104,071,168 total pixels**. Metrics aggregate valid pixels globally. Change IoU is the change-class IoU; mIoU averages both classes.
+
+## Model downloads
+
+<!-- MODEL_DOWNLOADS: replace the pending cells after uploading both files. -->
+
+| File | Role | Baidu Netdisk link | Extraction code |
+|---|---|---|---|
+| `ssl_vit_base_epoch8.pth` | Frozen image encoder; iBOT backbone + head | **Pending upload — add link here** | **Pending** |
+| `cmpanet_small_head_24_max_performance.pth` | Trained change detector / map encoder | **Pending upload — add link here** | **Pending** |
+
+Both files are required. The change-detection checkpoint does not contain the frozen image encoder. Another directory contains a different checkpoint with the same basename: verify these hashes.
+
+| File | SHA-256 |
+|---|---|
+| `ssl_vit_base_epoch8.pth` | `73c3947b22d2f98c481c3cc42fd126bff293ee2a0361622af7aa441142ac4d24` |
+| `cmpanet_small_head_24_max_performance.pth` | `99af86610d54ff99c2ac22691bd0e398c7a0acc1e0e97a1bc2d5928edf17366b` |
+
+```text
+pretrained/ssl_vit_base_epoch8.pth
+checkpoints/cmpanet_small_head_24_max_performance.pth
+data/train.txt
+data/val.txt
+```
+
+Weights and data are excluded from Git. Model download links are **not yet available**. The verified teacher is epoch8; the paper describes 10 pretraining epochs. Other teacher checkpoints are not interchangeable for reproducing the score.
+
+## Evaluation
+
+Run from the repository root (the same command works in Bash and PowerShell):
+
+```bash
+python test.py --checkpoint checkpoints/cmpanet_small_head_24_max_performance.pth --pretrained pretrained/ssl_vit_base_epoch8.pth --valtxt data/val.txt --output outputs/small24 --expect-samples 397
+```
+
+Wrappers: `bash scripts/test.sh <same arguments>` or `./scripts/test.ps1 <same arguments>`.
+
+- Uses `configs/cmpanet_small_head24.json`, shared `norm1`, strict loading, FP32, batch 1, TF32 disabled, bilinear output interpolation (`align_corners=True`), then argmax.
+- Requires validation data only, without training samples or a training list.
+- Writes `results.json` (metrics, confusion matrix, pixel counts, hashes), `samples.jsonl` (per-image records), and `evaluation_config.json`.
+- `--save-predictions` writes raw 0/255 predictions. Ignored pixels are excluded from metrics only.
+- Use a fresh output directory per run. Omit `--expect-samples` for other dataset sizes.
+- Labels provide metrics and an auxiliary alignment mask. The segmentation feature path independently re-encodes the map and does not consume the label-derived mask.
+
+## Training
+
+```bash
+python train.py --suptxt data/train.txt --valtxt data/val.txt --pretrained pretrained/ssl_vit_base_epoch8.pth --epochs 100 --train_batch_size 4 --base_lr 0.00001 --test_interval 500 --checkpoints_name cmpanet_small_head24 --log_file logs/cmpanet_small_head24
+```
+
+Wrappers: `bash scripts/train.sh <same arguments>` or `./scripts/train.ps1 <same arguments>`. See `python train.py --help`. `main.py` is also retained; pass `--configs configs/cmpanet_small_head24.json` explicitly when using it.
+
+| Current training recipe | Value |
+|---|---|
+| Map / image encoder | Trainable ViT-S/16 / frozen ViT-B/16 |
+| Feature normalization | Shared `norm1` on all four chunks |
+| Batch / epochs | 4 / 100 |
+| Optimizer / LR / weight decay | AdamW / 1e-5 / 0.01 |
+| Schedule | Cosine, minimum LR 1e-6, no warmup |
+| Segmentation loss | OHEM cross entropy, weight 0.7 |
+| Patch alignment | Masked KL(student map \|\| frozen image teacher), weight 1.0 |
+| Pixel alignment | Disabled |
+| AMP / seed | Enabled / 304 |
+
+Map parameters are initialized randomly unless `--resume` supplies decoder weights. `--resume` is **weight initialization / fine-tuning**, not restoration of optimizer, AMP, RNG or learning-rate progress. Legacy release weights use the same strict compatibility adapter as evaluation.
+
+This recipe supports new experiments; it is **not asserted to be the historical recipe** that produced the release weight. Historical settings include a different segmentation loss and a warm start; the historical patch-loss formula is not conclusively recovered. No new 100-epoch experiment with this release recipe has been completed.
+
+`--check-config` validates paths and configuration without training. Override `--workers`, `--fp16`, `--max_iters`, `--gpu` or `--memory-fraction` as needed. Training stops at the epoch or iteration limit; 200,000 iterations covers 100 epochs at batch 4. Batch size must be at least 2 because of pooled BatchNorm; singleton last batches are dropped. Batches with no changed pixels skip optimization; AMP may skip overflowing updates. `--unsuptxt` is accepted for compatibility but does not contribute training loss.
+
+Outputs: `logs/` text logs, `runs/` TensorBoard logs, and `checkpoints/<name>/` decoder weights. The inherited `max_performance` selection uses **mIoU**, not F1. Use `test.py` for explicit change-class metrics. Frozen image weights remain external.
+
+## Validation and layout
+
+```bash
+python -m unittest discover -s tests -v
+python tools/smoke_test.py --pretrained pretrained/ssl_vit_base_epoch8.pth --fp16 false --steps 3
+```
+
+The smoke test uses temporary synthetic inputs and checks actual optimization, finite loss, teacher freezing, evaluation and serialization. It is not a dataset training experiment. The public evaluator was separately checked on all 397 real samples; see [recorded metrics](docs/release_metrics.json).
+
+```text
+configs/       Small shared-norm1 recipe and optional Base config
+lib/           Backbones, attention, decoder, losses and data pipeline
+segmentor/     Single-GPU trainer and evaluator
+train.py       Training entry point
+test.py        Standalone evaluation entry point
+scripts/       Bash and PowerShell wrappers
+tests/         Loss, normalization, data and metric tests
+docs/          Verification record and Chinese guide
+images/        Dataset examples and attributed paper figures
+```
+
+## Citation and attribution
 
 ```bibtex
 @article{DENG2024114,
-  title     = {Cross-modal change detection using historical land use maps and current remote sensing images},
-  journal   = {ISPRS Journal of Photogrammetry and Remote Sensing},
-  volume    = {218},
-  pages     = {114-132},
-  year      = {2024},
-  issn      = {0924-2716},
-  doi       = {https://doi.org/10.1016/j.isprsjprs.2024.10.010},
-  url       = {https://www.sciencedirect.com/science/article/pii/S0924271624003873},
+  title   = {Cross-modal change detection using historical land use maps and current remote sensing images},
+  journal = {ISPRS Journal of Photogrammetry and Remote Sensing},
+  volume  = {218},
+  pages   = {114--132},
+  year    = {2024},
+  doi     = {10.1016/j.isprsjprs.2024.10.010}
 }
+```
+
+Code retains original MIT/Apache notices: [LICENSE](LICENSE), [LICENSES](LICENSES), [third-party notices](THIRD_PARTY_NOTICES.md). Dataset research-use terms are separate. Paper figures retain original publication rights; see [figure sources](images/FIGURES.md).

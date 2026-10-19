@@ -1,0 +1,43 @@
+{
+  "fp32": {
+    "status": "PASS",
+    "steps": 3,
+    "optimizer_updates": 3,
+    "final_amp_scale": 1.0,
+    "size": 64,
+    "fp16": "false",
+    "train_losses": [
+      0.9530985951423645,
+      0.9147921800613403,
+      0.907023549079895
+    ],
+    "final_val_loss": 0.8851929903030396,
+    "checkpoint_roundtrip": true,
+    "teacher_frozen": true,
+    "validation_mode_restored": true,
+    "peak_gpu_mb": 2061
+  },
+  "amp": {
+    "status": "PASS",
+    "steps": 8,
+    "optimizer_updates": 8,
+    "final_amp_scale": 65536.0,
+    "size": 64,
+    "fp16": "true",
+    "train_losses": [
+      0.9530324935913086,
+      0.9141649007797241,
+      0.9079010486602783,
+      0.8977680206298828,
+      0.9190782904624939,
+      0.8918553590774536,
+      0.8695970773696899,
+      0.8727476596832275
+    ],
+    "final_val_loss": 0.8700801134109497,
+    "checkpoint_roundtrip": true,
+    "teacher_frozen": true,
+    "validation_mode_restored": true,
+    "peak_gpu_mb": 2054
+  }
+}

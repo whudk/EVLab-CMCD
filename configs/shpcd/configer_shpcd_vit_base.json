@@ -1,0 +1,459 @@
+{
+  "dataset": "",
+  "method": "panet_base",
+  "task": "shpcd",
+  "details": {
+    "color_list": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        204,
+        0,
+        0
+      ],
+      [
+        76,
+        153,
+        0
+      ],
+      [
+        204,
+        204,
+        0
+      ],
+      [
+        51,
+        51,
+        255
+      ],
+      [
+        204,
+        0,
+        204
+      ],
+      [
+        0,
+        255,
+        255
+      ],
+      [
+        255,
+        204,
+        204
+      ],
+      [
+        102,
+        51,
+        0
+      ],
+      [
+        255,
+        0,
+        0
+      ],
+      [
+        102,
+        204,
+        0
+      ],
+      [
+        255,
+        255,
+        0
+      ],
+      [
+        0,
+        0,
+        153
+      ],
+      [
+        0,
+        0,
+        204
+      ],
+      [
+        255,
+        51,
+        153
+      ],
+      [
+        0,
+        204,
+        204
+      ],
+      [
+        0,
+        51,
+        0
+      ],
+      [
+        255,
+        153,
+        51
+      ],
+      [
+        0,
+        204,
+        0
+      ]
+    ]
+  },
+  "config": {
+    "transxml": ""
+  },
+  "data": {
+    "image_tool": "cv2",
+    "input_mode": "BGR",
+    "num_classes": 2,
+    "check_path": false,
+    "reduce_zero_label": true,
+    "data_dir": "data",
+    "workers": 0,
+    "start": 0
+  },
+  "train": {
+    "use_amp": true,
+    "batch_size": 3,
+    "loader": "shpcd_semi_dataset",
+    "mode": "shpcd",
+    "warm_up_epoch": 0,
+    "epoch": 100,
+    "fp16": true,
+    "unsupervised": {
+      "drop_percent": 80
+    },
+    "data_transformer": {
+      "size_mode": "fix_size",
+      "input_size": [
+        512,
+        512
+      ],
+      "align_method": "scale_and_pad",
+      "pad_mode": "random"
+    }
+  },
+  "val": {
+    "batch_size": 4,
+    "mode": "ms_test",
+    "loader": "shpcd_semi_dataset",
+    "data_transformer": {
+      "size_mode": "max_size",
+      "align_method": "only_pad",
+      "pad_mode": "pad_right_down",
+      "input_size": [
+        512,
+        512
+      ]
+    }
+  },
+  "test": {
+    "batch_size": 2,
+    "mode": "ss_test",
+    "method": "base_cd",
+    "data_transformer": {
+      "size_mode": "diverse_size",
+      "align_method": "only_pad",
+      "pad_mode": "pad_right_down"
+    },
+    "bin_thr": 125
+  },
+  "train_trans": {
+    "aug_mode": "cutmix",
+    "trans_seq": [
+      "random_hflip",
+      "random_resize",
+      "random_crop",
+      "resize",
+      "random_saturation",
+      "random_brightness",
+      "random_contrast"
+    ],
+    "trans_image": [
+      "newimg"
+    ],
+    "random_brightness": {
+      "ratio": 0.5,
+      "shift_value": 10
+    },
+    "random_stretch": {
+      "method": "random",
+      "ratio": 0.5,
+      "percent_range": [
+        0.0,
+        2.0
+      ],
+      "standrand_range": [
+        0.5,
+        1.5
+      ]
+    },
+    "random_saturation": {
+      "lower": 0.5,
+      "upper": 1.5,
+      "saturation_ratio": 0.5
+    },
+    "random_contrast": {
+      "lower": 0.9,
+      "upper": 1.2,
+      "ratio": 0.5
+    },
+    "resize": {
+      "target_size": [
+        512,
+        512
+      ]
+    },
+    "random_hflip": {
+      "ratio": 0.5,
+      "swap_pair": []
+    },
+    "random_resize": {
+      "ratio": 0.5,
+      "method": "random",
+      "scale_range": [
+        0.75,
+        1.25
+      ],
+      "aspect_range": [
+        0.9,
+        1.1
+      ]
+    },
+    "random_rotate": {
+      "ratio": 0.5,
+      "rotate_degree": 10
+    },
+    "random_crop": {
+      "ratio": 1.0,
+      "crop_size": [
+        512,
+        512
+      ],
+      "method": "random",
+      "allow_outside_center": false
+    }
+  },
+  "val_trans": {
+    "trans_seq": [
+      "resize"
+    ],
+    "resize": {
+      "min_side_length": 512
+    },
+    "random_crop": {
+      "ratio": 1.0,
+      "crop_size": [
+        512,
+        512
+      ],
+      "method": "center",
+      "allow_outside_center": false
+    }
+  },
+  "normalize": {
+    "left": {
+      "div_value": 255.0,
+      "mean_value": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mean": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "std": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "right": {
+      "div_value": 255.0,
+      "mean_value": [
+        0.25622291,
+        0.29372887,
+        0.28199201
+      ],
+      "mean": [
+        0.25622291,
+        0.29372887,
+        0.28199201
+      ],
+      "std": [
+        0.12992822,
+        0.1400362,
+        0.15549341
+      ]
+    }
+  },
+  "checkpoints": {
+    "checkpoints_name": "cmpanet",
+    "checkpoints_dir": "cmpanet",
+    "save_iters": 100
+  },
+  "network": {
+    "bn_type": "torchbn",
+    "image_encoder": {
+      "name": "vit_base",
+      "pretrained": "pretrained/ssl_vit_base_epoch8.pth",
+      "params": {
+        "in_ch": 3,
+        "patch_size": 16,
+        "return_all_tokens": true,
+        "masked_im_modeling": false
+      },
+      "head": {
+        "out_dim": 8192,
+        "patch_out_dim": 8192,
+        "norm_in_head": null,
+        "act_in_head": "gelu",
+        "norm_last_layer": false,
+        "shared_head_student": false,
+        "shared_head_teacher": true
+      }
+    },
+    "shp_encoder": {
+      "name": "vit_base",
+      "params": {
+        "in_ch": 3,
+        "patch_size": 16,
+        "img_size": [
+          512
+        ],
+        "return_all_tokens": true,
+        "masked_im_modeling": true
+      }
+    },
+    "decoder": {
+      "name": "head_shpcd",
+      "params": {
+        "use_pyrid": false,
+        "feats_exchange": "CCMAT",
+        "feats_fusion": "TBAM",
+        "encoder_dim": 768,
+        "n_cross_head": 24,
+        "n_cross_layer": 1,
+        "proj_drop": 0.1,
+        "attn_drop": 0.1
+      },
+      "head": {
+        "name": "uper_head",
+        "fusion": "cross",
+        "params": {
+          "num_class": 2,
+          "pool_scales": [
+            1,
+            2,
+            3,
+            6
+          ],
+          "fc_dim": 192,
+          "fpn_inplanes": [
+            192,
+            192,
+            192,
+            192
+          ],
+          "fpn_dim": 256,
+          "embed_dim": 512,
+          "out_dim": 8192,
+          "feature_normalization": "shared_chunk_norm1"
+        }
+      }
+    },
+    "loss_weights": {
+      "aux_loss": 0.4,
+      "seg_loss": 1.0
+    }
+  },
+  "logging": {
+    "logfile_level": "info",
+    "stdout_level": "info",
+    "log_file": "logs/cmpanet",
+    "log_format": "%(asctime)s %(levelname)-7s %(message)s",
+    "rewrite": true,
+    "tb_logger": "runs",
+    "tb_name": "cmpanet"
+  },
+  "lr": {
+    "base_lr": 3e-05,
+    "metric": "iters",
+    "lr_policy": "lambda_poly",
+    "warm": {
+      "warm_iters": 0,
+      "freeze_backbone": false
+    },
+    "step": {
+      "gamma": 0.5,
+      "step_size": 100
+    }
+  },
+  "solver": {
+    "display_iter": 10,
+    "test_interval": 500,
+    "max_iters": 100000
+  },
+  "optim": {
+    "optim_method": "adamw",
+    "adamw": {
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-08,
+      "weight_decay": 0.01
+    },
+    "sgd": {
+      "weight_decay": 0.0001,
+      "momentum": 0.9,
+      "nesterov": false
+    }
+  },
+  "loss": {
+    "loss_type": "fs_ohemce_loss",
+    "patch_algin": true,
+    "pixel_algin": false,
+    "ce_loss": true,
+    "params": {
+      "ce_reduction": "mean",
+      "ce_ignore_index": -1,
+      "ohem_minkeep": 100000,
+      "ohem_thresh": 0.7,
+      "loss_weight": 0.7
+    },
+    "celoss_weight": 0.7
+  },
+  "contrast": {
+    "loss": "contrast_change_loss",
+    "labeled_size": 1,
+    "proj_dim": 256,
+    "threshold": 0.5,
+    "temperature": 2.5,
+    "base_temperature": 0.7,
+    "max_samples": 1024,
+    "max_views": 50,
+    "n_views": 100,
+    "classes": [
+      1
+    ],
+    "stride": 8,
+    "warmup_iters": 5000,
+    "loss_weight": 1.0,
+    "memory_size": 2000,
+    "emdb": true,
+    "with_memory": true,
+    "pixel_update_freq": 50,
+    "negative_high_entropy": true,
+    "contrast_warmup_iters": 200,
+    "unsupervised_entropy_ignore": 80,
+    "low_entropy_threshold": 20,
+    "num_negatives": 50,
+    "num_queries": 512,
+    "lambda_u": 0.2
+  }
+}
