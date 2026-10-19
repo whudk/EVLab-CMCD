@@ -119,14 +119,8 @@ python test.py --checkpoint checkpoints/cmpanet_small_head_24_max_performance.pt
 python train.py --suptxt data/train.txt --valtxt data/val.txt --pretrained pretrained/ssl_vit_base_epoch8.pth --epochs 100 --train_batch_size 4 --base_lr 0.00001 --test_interval 500 --checkpoints_name cmpanet_small_head24 --log_file logs/cmpanet_small_head24
 ```
 
-
 Map parameters are initialized randomly unless `--resume` supplies decoder weights. `--resume` is **weight initialization / fine-tuning**, not restoration of optimizer, AMP, RNG or learning-rate progress. Legacy release weights use the same strict compatibility adapter as evaluation.
 
-This recipe supports new experiments; it is **not asserted to be the historical recipe** that produced the release weight. Historical settings include a different segmentation loss and a warm start; the historical patch-loss formula is not conclusively recovered. No new 100-epoch experiment with this release recipe has been completed.
-
-`--check-config` validates paths and configuration without training. Override `--workers`, `--fp16`, `--max_iters`, `--gpu` or `--memory-fraction` as needed. Training stops at the epoch or iteration limit; 200,000 iterations covers 100 epochs at batch 4. Batch size must be at least 2 because of pooled BatchNorm; singleton last batches are dropped. Batches with no changed pixels skip optimization; AMP may skip overflowing updates. `--unsuptxt` is accepted for compatibility but does not contribute training loss.
-
-Outputs: `logs/` text logs, `runs/` TensorBoard logs, and `checkpoints/<name>/` decoder weights. The inherited `max_performance` selection uses **mIoU**, not F1. Use `test.py` for explicit change-class metrics. Frozen image weights remain external.
 
 ## Validation and layout
 
